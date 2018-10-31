@@ -5,6 +5,7 @@ import com.voxxeddays.events.beans.Events;
 import com.voxxeddays.events.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +20,14 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
     @PostMapping
     public Events postEvent(@RequestBody  Events events) {
-
-        return eventRepository.save(events);
+        Events savedEvents = eventRepository.save(events);
+        kafkaTemplate.send("events", savedEvents.toString());
+        return savedEvents;
     }
 
     @GetMapping
