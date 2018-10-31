@@ -1,2 +1,3 @@
 mvn spring-boot:run
- mvn install dockerfile:build
+mvn install dockerfile:build
+docker-compose -f mongodb.yml up

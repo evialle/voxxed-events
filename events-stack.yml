@@ -2,17 +2,13 @@ version: '2'
 services:
   myapp:
     build: .
-    container_name: "myapp"
-    image: debian/latest
+    container_name: "voxxed-events"
+    image: voxxed-events/latest
     environment:
     - NODE_ENV=development
     - FOO=bar
-    volumes:
-    - .:/var/www:rw
-    - /tmp/.X11-unix:/tmp/.X11-unix:rw
     ports:
-    - 3000:3000
-    - 9000:9000
+    - 8080:8080
     links:
     - mongodb
     depends_on:
