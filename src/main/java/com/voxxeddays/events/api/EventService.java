@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.StringBufferInputStream;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin("*")
@@ -26,7 +27,8 @@ public class EventService {
     @PostMapping
     public Events postEvent(@RequestBody  Events events) {
         Events savedEvents = eventRepository.save(events);
-        kafkaTemplate.send("events", savedEvents.toString());
+        kafkaTemplate.send("events", UUID.randomUUID().toString(), savedEvents.toString());
+
         return savedEvents;
     }
 
